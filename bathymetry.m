@@ -33,7 +33,7 @@ tidal_freqs.S2 = 2.00 / 24;        % Principal solar semidiurnal
 tidal_freqs.K1 = 1.00 / 24;        % Lunar-solar diurnal
 tidal_freqs.O1 = 0.93 / 24;        % Lunar diurnal
 tidal_freqs.N2 = 1.90 / 24;        % Larger lunar elliptic semidiurnal
-tidal_freqs.near_inertial = f_cph; % Local inertial frequency
+tidal_freqs.inertial = f_cph; % Local inertial frequency
 
 % Preallocation of struct
 results = struct('name', cell(size(paths, 1), 1), ...
@@ -59,7 +59,6 @@ for t = 1:size(paths, 1)
     
     % Define bottom slope s = -dD/dx from the paper
     s = -gradient(smooth_data, x);
-    s = max(s, 0.0005);
     
     % Define critical frequency sigma_c
     sigma_c_rad = sqrt((N_rad^2 * s.^2 + f_rad^2) ./ (1 + s.^2));
@@ -129,7 +128,7 @@ for i = 1:length(freq_names)
     
     if isempty(crossings)
         % No crossings
-        fprintf('No critical reflection at all frequencies for %s internal tides!\n', ...
+        fprintf('No critical reflection occured for %s internal tides!\n', ...
             fname);
     else
         % Store crossing locations
@@ -173,7 +172,8 @@ end
 
 ylabel('\sigma_c (cph)', 'FontSize', 12);
 xlabel('Distance from shore (km)', 'FontSize', 12);
-title('Critical Frequency vs Distance with Tidal Frequencies', 'FontSize', 12);
+title('Critical Frequency vs Distance with Tidal Frequencies', ...
+    'FontSize', 12);
 grid on;
 
 % Add legend for bottom plot
@@ -183,7 +183,7 @@ legend_labels_1 = {'\sigma_c', ...
     'K1 (1.00 cpd)', ...
     'O1 (0.93 cpd)', ...
     'N2 (1.90 cpd)', ...
-    'near-inertial (1.10 cpd)'};
+    'inertial (1.10 cpd)'};
 legend(legend_labels_1, 'Location', 'best', 'FontSize', 8);
 
 % Critical Frequency vs Bottom Slope
@@ -208,7 +208,8 @@ end
 
 xlabel('Bottom slope s = -dh/dx', 'FontSize', 12);
 ylabel('\sigma_c (cph)', 'FontSize', 12);
-title('Critical Frequency vs Bottom Slope for Cardiff to La Jolla', 'FontSize', 12);
+title('Critical Frequency vs Bottom Slope for Cardiff to La Jolla', ...
+    'FontSize', 12);
 
 % Create legend
 legend_labels_2 = {'\sigma_c', ...
@@ -217,7 +218,7 @@ legend_labels_2 = {'\sigma_c', ...
     'K1 (1.00 cpd)', ...
     'O1 (0.93 cpd)', ...
     'N2 (1.90 cpd)', ...
-    'near-inertial (1.10 cpd)'};
+    'inertial (1.10 cpd)'};
 legend(legend_labels_2, 'Location', 'best', 'FontSize', 8);
 grid on;
 xlim([0, max(bottom_slope)]);
