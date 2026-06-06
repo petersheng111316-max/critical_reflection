@@ -65,19 +65,22 @@ ylabel('10 log_{10}(E_{total}) (dB)', 'FontSize', 12);
 title('Total Energy vs Frequency for 2D Reflection', 'FontSize', 12);
 legend('Trend', '\sigma_c', 'f', 'N', 'Location', 'best');
 grid on;
-xlim([0.9 * f_cph, 1.1 * N_cph]);
+xlim([0.9 * f_cph, 1.1 * N_cph]); % no trend below f or above N
 
 % Figure 2: Wavenumber Amplification vs Frequency (2D)
 figure('Position', [100, 100, 700, 500]);
 semilogx(sigma_cph, m_ratio_2d, 'g-', 'LineWidth', 2);
 hold on;
 plot([sigma_c_cph, sigma_c_cph], ylim, 'r--', 'LineWidth', 1.5);
+plot([f_cph, f_cph], ylim, 'k:', 'LineWidth', 1);
+plot([N_cph, N_cph], ylim, 'k:', 'LineWidth', 1);
 xlabel('Frequency (cph)', 'FontSize', 12);
 ylabel('m_r / m_i', 'FontSize', 12);
 title('Wavenumber Amplification vs Frequency for 2D Reflection', ...
     'FontSize', 12);
 legend('Trend', '\sigma_c', 'Location', 'best');
 grid on;
+xlim([0.9 * f_cph, 1.1 * N_cph]); % no trend below f or above N
 
 % Figure 3: Critical Frequency vs latitude for varying slopes
 
