@@ -177,11 +177,47 @@ title('Critical Frequency vs Distance with Tidal Frequencies', 'FontSize', 12);
 grid on;
 
 % Add legend for bottom plot
-legend_labels = {'\sigma_c', ...
+legend_labels_1 = {'\sigma_c', ...
     'M2 (1.93 cpd)', ...
     'S2 (2.00 cpd)', ...
     'K1 (1.00 cpd)', ...
     'O1 (0.93 cpd)', ...
     'N2 (1.90 cpd)', ...
     'near-inertial (1.10 cpd)'};
-legend(legend_labels, 'Location', 'best', 'FontSize', 8);
+legend(legend_labels_1, 'Location', 'best', 'FontSize', 8);
+
+% Critical Frequency vs Bottom Slope
+figure('Position', [50, 50, 1200, 900]);
+hold on;
+
+% Choose Cardiff to La Jolla transect
+t = 2;
+bottom_slope = results(t).s;
+sigma_c_vals = results(t).sigma_c_cph;
+
+% Plot sigma_c vs bottom slope
+plot(bottom_slope, sigma_c_vals, 'b-', 'LineWidth', 2);
+
+% Indicate all tidal frequencies (allowing rotation)
+for i = 1:length(freq_names)
+    fval = tidal_freqs.(freq_names{i});
+    color = freq_colors{mod(i-1, length(freq_colors))+1};
+    plot([min(bottom_slope), max(bottom_slope)], [fval, fval], '--', ...
+        'Color', color, 'LineWidth', 1);
+end
+
+xlabel('Bottom slope s = -dh/dx', 'FontSize', 12);
+ylabel('\sigma_c (cph)', 'FontSize', 12);
+title('Critical Frequency vs Bottom Slope for Cardiff to La Jolla', 'FontSize', 12);
+
+% Create legend
+legend_labels_2 = {'\sigma_c', ...
+    'M2 (1.93 cpd)', ...
+    'S2 (2.00 cpd)', ...
+    'K1 (1.00 cpd)', ...
+    'O1 (0.93 cpd)', ...
+    'N2 (1.90 cpd)', ...
+    'near-inertial (1.10 cpd)'};
+legend(legend_labels_2, 'Location', 'best', 'FontSize', 8);
+grid on;
+xlim([0, max(bottom_slope)]);
